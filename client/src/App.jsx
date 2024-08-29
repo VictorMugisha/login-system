@@ -1,5 +1,5 @@
 export default function App() {
   return (
-    <div>App</div>
+    <div className="text-4xl font-bold text-green-600">Hello React</div>
   )
 }

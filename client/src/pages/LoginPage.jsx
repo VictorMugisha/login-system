@@ -22,8 +22,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const dummyToken = "dummyToken";
-    login(dummyToken);
+    login("dummyToken");
     console.log("Loged in with dummyToken");
     navigate("/users/home");
   };

@@ -9,6 +9,7 @@ export default function SignupPage() {
     password: "",
     repeatPassword: "",
     profilePicture: null,
+    profileImage: "",
     phoneNumber: "",
   });
 
@@ -34,6 +35,10 @@ export default function SignupPage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result); // Set the image preview to the base64 string
+        setFormData({
+          ...formData,
+          profileImage: reader.result,
+        });
       };
       reader.readAsDataURL(file);
     } else {
@@ -54,7 +59,6 @@ export default function SignupPage() {
       })
       return;
     }
-    console.log(formData);
   };
 
   return (

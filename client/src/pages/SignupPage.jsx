@@ -13,6 +13,7 @@ export default function SignupPage() {
   });
 
   const [preview, setPreview] = useState(null);
+  const [errors, setErrors] = useState({});
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -32,7 +33,6 @@ export default function SignupPage() {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        console.log(reader.result);
         setPreview(reader.result); // Set the image preview to the base64 string
       };
       reader.readAsDataURL(file);
@@ -41,10 +41,20 @@ export default function SignupPage() {
     }
   };
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here
+    const { password, repeatPassword } = formData;
+    if (password !== repeatPassword) {
+      setErrors(currentErros => {
+        return {
+          ...currentErros,
+          passwordMatch: "Passwords do not match",
+        }
+      })
+      return;
+    }
+    console.log(formData);
   };
 
   return (
@@ -54,6 +64,8 @@ export default function SignupPage() {
         className="bg-white p-8 rounded-md shadow-md w-full max-w-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
+
+        {errors && <div className="text-red-500 mb-4">{errors.passwordMatch}</div>}
 
         <div className="grid grid-cols-2 gap-4">
           <div>

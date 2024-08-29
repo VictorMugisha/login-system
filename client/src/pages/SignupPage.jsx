@@ -1,16 +1,18 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    password: '',
-    repeatPassword: '',
+    firstName: "",
+    lastName: "",
+    username: "",
+    email: "",
+    password: "",
+    repeatPassword: "",
     profilePicture: null,
-    phoneNumber: '',
+    phoneNumber: "",
   });
+
+  const [preview, setPreview] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,10 +23,22 @@ export default function SignupPage() {
   };
 
   const handleFileChange = (e) => {
+    const file = e.target.files[0];
     setFormData({
       ...formData,
-      profilePicture: e.target.files[0],
+      profilePicture: file,
     });
+
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        console.log(reader.result);
+        setPreview(reader.result); // Set the image preview to the base64 string
+      };
+      reader.readAsDataURL(file);
+    } else {
+      setPreview(null); // Reset the preview if no file is selected
+    }
   };
 
   const handleSubmit = (e) => {
@@ -34,8 +48,8 @@ export default function SignupPage() {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <form 
-        onSubmit={handleSubmit} 
+      <form
+        onSubmit={handleSubmit}
         className="bg-white p-8 rounded-md shadow-md w-full max-w-lg"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
@@ -43,7 +57,7 @@ export default function SignupPage() {
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block mb-2 text-sm font-medium">First Name</label>
-            <input 
+            <input
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -55,7 +69,7 @@ export default function SignupPage() {
 
           <div>
             <label className="block mb-2 text-sm font-medium">Last Name</label>
-            <input 
+            <input
               type="text"
               name="lastName"
               value={formData.lastName}
@@ -67,7 +81,7 @@ export default function SignupPage() {
 
           <div>
             <label className="block mb-2 text-sm font-medium">Username</label>
-            <input 
+            <input
               type="text"
               name="username"
               value={formData.username}
@@ -79,7 +93,7 @@ export default function SignupPage() {
 
           <div>
             <label className="block mb-2 text-sm font-medium">Email</label>
-            <input 
+            <input
               type="email"
               name="email"
               value={formData.email}
@@ -91,7 +105,7 @@ export default function SignupPage() {
 
           <div>
             <label className="block mb-2 text-sm font-medium">Password</label>
-            <input 
+            <input
               type="password"
               name="password"
               value={formData.password}
@@ -102,8 +116,10 @@ export default function SignupPage() {
           </div>
 
           <div>
-            <label className="block mb-2 text-sm font-medium">Repeat Password</label>
-            <input 
+            <label className="block mb-2 text-sm font-medium">
+              Repeat Password
+            </label>
+            <input
               type="password"
               name="repeatPassword"
               value={formData.repeatPassword}
@@ -114,18 +130,29 @@ export default function SignupPage() {
           </div>
 
           <div className="col-span-2">
-            <label className="block mb-2 text-sm font-medium">Profile Picture</label>
-            <input 
+            <label className="block mb-2 text-sm font-medium">
+              Profile Picture
+            </label>
+            <input
               type="file"
               name="profilePicture"
               onChange={handleFileChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-md"
             />
+            {preview && (
+              <img
+                src={preview}
+                alt="Profile Preview"
+                className="mt-4 w-32 h-32 object-cover rounded-full"
+              />
+            )}
           </div>
 
           <div className="col-span-2">
-            <label className="block mb-2 text-sm font-medium">Phone Number</label>
-            <input 
+            <label className="block mb-2 text-sm font-medium">
+              Phone Number
+            </label>
+            <input
               type="text"
               name="phoneNumber"
               value={formData.phoneNumber}
@@ -136,8 +163,8 @@ export default function SignupPage() {
           </div>
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="w-full mt-6 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
         >
           Sign Up
@@ -145,4 +172,4 @@ export default function SignupPage() {
       </form>
     </div>
   );
-};
+}

@@ -1,10 +1,16 @@
-import { useState } from 'react';
+import { useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
-export default function LoginPage(){
+export default function LoginPage() {
   const [formData, setFormData] = useState({
-    usernameOrEmail: '',
-    password: '',
+    usernameOrEmail: "",
+    password: "",
   });
+
+  const navigate = useNavigate()
+
+  const { login } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -16,20 +22,25 @@ export default function LoginPage(){
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+    const dummyToken = "dummyToken";
+    login(dummyToken);
+    console.log("Loged in with dummyToken");
+    navigate("/users/home");
   };
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <form 
-        onSubmit={handleSubmit} 
+      <form
+        onSubmit={handleSubmit}
         className="bg-white p-8 rounded-md shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
 
         <div>
-          <label className="block mb-2 text-sm font-medium">Username or Email</label>
-          <input 
+          <label className="block mb-2 text-sm font-medium">
+            Username or Email
+          </label>
+          <input
             type="text"
             name="usernameOrEmail"
             value={formData.usernameOrEmail}
@@ -41,7 +52,7 @@ export default function LoginPage(){
 
         <div className="mt-4">
           <label className="block mb-2 text-sm font-medium">Password</label>
-          <input 
+          <input
             type="password"
             name="password"
             value={formData.password}
@@ -51,8 +62,8 @@ export default function LoginPage(){
           />
         </div>
 
-        <button 
-          type="submit" 
+        <button
+          type="submit"
           className="w-full mt-6 bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600"
         >
           Sign In
@@ -60,4 +71,4 @@ export default function LoginPage(){
       </form>
     </div>
   );
-};
+}

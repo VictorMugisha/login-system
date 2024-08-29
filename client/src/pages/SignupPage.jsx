@@ -41,6 +41,7 @@ export default function SignupPage() {
     }
   };
 
+
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle form submission logic here

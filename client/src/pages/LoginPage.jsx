@@ -1,16 +1,16 @@
 import { useState } from "react";
-import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+// import { useAuth } from "../hooks/useAuth";
+// import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
-    usernameOrEmail: "",
+    username: "",
     password: "",
   });
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
-  const { login } = useAuth();
+  // const { login } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -22,8 +22,19 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    login("dummyToken");
-    navigate("/users/home");
+    const api = "http://localhost:5000/signup";
+    fetch(api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
+    // login("dummyToken");
+    // navigate("/users/home");
   };
 
   return (
@@ -40,8 +51,8 @@ export default function LoginPage() {
           </label>
           <input
             type="text"
-            name="usernameOrEmail"
-            value={formData.usernameOrEmail}
+            name="username"
+            value={formData.username}
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md"
             required

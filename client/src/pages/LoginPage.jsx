@@ -15,12 +15,12 @@ export default function LoginPage() {
   useEffect(() => {
     if (location.state) {
       console.log(location.state)
-      setErrors({
-        ...errors,
+      setErrors(previousErros => ({
+        ...previousErros,
         loginFirst: location.state.error,
-      })
+      }))
     }
-  }, []);
+  }, [location]);
 
   const navigate = useNavigate()
 

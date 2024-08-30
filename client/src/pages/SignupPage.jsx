@@ -73,6 +73,7 @@ export default function SignupPage() {
       <form
         onSubmit={handleSubmit}
         className="bg-white p-8 rounded-md shadow-md w-full max-w-lg"
+        encType="multipart/form-data"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
 

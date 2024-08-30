@@ -5,6 +5,8 @@ const dotenv = require("dotenv");
 const crypto = require("crypto");
 let uuid = crypto.randomUUID();
 const { v4: uuidv4 } = require("uuid");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
 
 const UserModel = require("./models/UserModel.js");
 
@@ -35,10 +37,15 @@ mongoose
   });
 
 // Routes
-app.post("/signup", async (req, res) => {
-  const { firstName, lastName, username, email, password, profilePicture } =
-    req.body;
-  console.log(profilePicture)
+app.post("/signup", upload.single("profilePicture"), async (req, res) => {
+  const { 
+    firstName, 
+    lastName, 
+    username, 
+    email, 
+    password 
+  } = req.body;
+  
   const userId = uuidv4() + uuid;
   try {
     const user = new UserModel({
@@ -48,7 +55,6 @@ app.post("/signup", async (req, res) => {
       username,
       email,
       password,
-      profilePicture,
     });
     await user.save();
     res.status(201).json({ message: "User created successfully", user });

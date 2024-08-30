@@ -1,6 +1,6 @@
 import { useState } from "react";
-// import { useAuth } from "../hooks/useAuth";
-// import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -8,9 +8,9 @@ export default function LoginPage() {
     password: "",
   });
 
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
-  // const { login } = useAuth();
+  const { login } = useAuth();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -31,10 +31,12 @@ export default function LoginPage() {
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        login(data.user.userId);
+        navigate("/users/home");
+      })
       .catch((err) => console.log(err));
-    // login("dummyToken");
-    // navigate("/users/home");
   };
 
   return (

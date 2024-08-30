@@ -4,7 +4,7 @@ import { useState } from "react";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
-    username: "",
+    usernameOrEmail: "",
     password: "",
   });
 
@@ -22,7 +22,7 @@ export default function LoginPage() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const api = "http://localhost:5000/signup";
+    const api = "http://localhost:5000/signin";
     fetch(api, {
       method: "POST",
       headers: {
@@ -51,8 +51,8 @@ export default function LoginPage() {
           </label>
           <input
             type="text"
-            name="username"
-            value={formData.username}
+            name="usernameOrEmail"
+            value={formData.usernameOrEmail}
             onChange={handleInputChange}
             className="w-full px-4 py-2 border border-gray-300 rounded-md"
             required

@@ -38,14 +38,8 @@ mongoose
 
 // Routes
 app.post("/signup", upload.single("profilePicture"), async (req, res) => {
-  const { 
-    firstName, 
-    lastName, 
-    username, 
-    email, 
-    password 
-  } = req.body;
-  
+  const { firstName, lastName, username, email, password } = req.body;
+
   const userId = uuidv4() + uuid;
   try {
     const user = new UserModel({

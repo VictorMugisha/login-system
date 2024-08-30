@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
 
 export default function SignupPage() {
   const [formData, setFormData] = useState({
@@ -11,6 +13,10 @@ export default function SignupPage() {
     profilePicture: null,
     phoneNumber: "",
   });
+
+  const navigate = useNavigate();
+
+  const { login } = useAuth();
 
   const [preview, setPreview] = useState(null);
   const [errors, setErrors] = useState({});
@@ -46,15 +52,17 @@ export default function SignupPage() {
     // Handle form submission logic here
     const { password, repeatPassword } = formData;
     if (password !== repeatPassword) {
-      setErrors(currentErros => {
+      setErrors((currentErros) => {
         return {
           ...currentErros,
           passwordMatch: "Passwords do not match",
-        }
-      })
+        };
+      });
       console.log("Passwords do not match");
       return;
     }
+
+    // Saving user data to the database
     const api = "http://localhost:5000/signup";
     fetch(api, {
       method: "POST",
@@ -64,7 +72,11 @@ export default function SignupPage() {
       body: JSON.stringify(formData),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data))
+      .then((data) => {
+        console.log(data);
+        login(data.user.userId);
+        navigate("/users/home");
+      })
       .catch((err) => console.log(err));
   };
 
@@ -77,7 +89,9 @@ export default function SignupPage() {
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign Up</h2>
 
-        {errors && <div className="text-red-500 mb-4">{errors.passwordMatch}</div>}
+        {errors && (
+          <div className="text-red-500 mb-4">{errors.passwordMatch}</div>
+        )}
 
         <div className="grid grid-cols-2 gap-4">
           <div>

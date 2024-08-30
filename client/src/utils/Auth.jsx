@@ -4,24 +4,24 @@ import PropTypes from 'prop-types'
 export const AuthContext = createContext();
 
 export default function AuthProvider({ children }) {
-  const [loginToken, setLoginToken] = useState(() => {
-    const storedToken = localStorage.getItem("loginToken");
-    return storedToken ? JSON.parse(storedToken) : null;
-  });
-  function login(token) {
-    setLoginToken(token);
-    localStorage.setItem("loginToken", JSON.stringify(token))
+  const [loginUser, setLoginUser] = useState(() => {
+    const storedUser = localStorage.getItem("loginUser");
+    return storedUser ? JSON.parse(storedUser) : null;
+  })
+  function login(user) {
+    setLoginUser(user);
+    localStorage.setItem("loginUser", JSON.stringify(user))
   }
   
   function logout() {
-    setLoginToken(null);
-    localStorage.removeItem("loginToken")
+    setLoginUser(null);
+    localStorage.removeItem("loginUser")
   }
 
-  const loginAuth = !!loginToken;
+  const loginAuth = !!loginUser;
 
   return (
-    <AuthContext.Provider value={{ loginAuth, login, logout, loginToken }}>
+    <AuthContext.Provider value={{ loginAuth, login, logout, loginUser }}>
       {children}
     </AuthContext.Provider>
   );

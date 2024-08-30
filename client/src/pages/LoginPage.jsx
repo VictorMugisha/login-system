@@ -68,15 +68,17 @@ export default function LoginPage() {
             }));
             break;
         }
-        console.log(error.message);
         return;
       }
 
       const data = await response.json();
-      login(data.user.userId);
+      login(data.user);
       navigate("/users/home");
     } catch (error) {
-      console.log(error);
+      setErrors(previousErrors => ({
+        ...previousErrors,
+        serverError: error
+      }));
     }
   };
 

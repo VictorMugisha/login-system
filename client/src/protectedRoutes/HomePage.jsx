@@ -5,11 +5,9 @@ import { useState } from "react";
 export default function HomePage() {
   const navigate = useNavigate();
   const { logout } = useAuth();
+  const loginUser = JSON.parse(localStorage.getItem("loginUser"));
   const [user] = useState({
-    firstName: "John",
-    lastName: "Doe",
-    username: "john_doe",
-    email: "john.doe@example.com",
+    ...loginUser,
     profilePicture: "https://via.placeholder.com/150",
   });
 

@@ -14,15 +14,15 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (location.state) {
-      console.log(location.state)
-      setErrors(previousErros => ({
+      console.log(location.state);
+      setErrors((previousErros) => ({
         ...previousErros,
         loginFirst: location.state.error,
-      }))
+      }));
     }
   }, [location]);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { login } = useAuth();
 
@@ -61,9 +61,7 @@ export default function LoginPage() {
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
 
-        {errors && (
-          <div className="text-red-500 mb-4">{errors.loginFirst}</div>
-        )}
+        {errors && <div className="text-red-500 mb-4">{errors.loginFirst}</div>}
 
         <div>
           <label className="block mb-2 text-sm font-medium">
@@ -98,14 +96,20 @@ export default function LoginPage() {
           Sign In
         </button>
 
-        <div>
-          <p className="mt-4 text-center">
+        <div className="mt-4 text-center">
+          <p>
             Don&apos;t have an account?{" "}
-            <Link 
+            <Link
               to="/signup"
               className="text-blue-500 hover:text-blue-700 font-bold"
             >
               Sign Up
+            </Link>
+          </p>
+
+          <p className="mt-2">
+            <Link to="/" className="text-blue-500 hover:text-blue-700">
+              Go back to the Homepage
             </Link>
           </p>
         </div>

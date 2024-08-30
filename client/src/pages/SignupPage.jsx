@@ -209,17 +209,21 @@ export default function SignupPage() {
           Sign Up
         </button>
 
-        <div>
-          <p className="mt-4 text-center">
-            Already have an account?{" "}
-            <Link
-              to="/signin"
-              className="text-blue-500 hover:text-blue-700 font-bold"
-            >
-              Sign In
-            </Link>
-          </p>
-        </div>
+        <p className="mt-4 text-center">
+          Already have an account?{" "}
+          <Link
+            to="/signin"
+            className="text-blue-500 hover:text-blue-700 font-bold"
+          >
+            Sign In
+          </Link>
+        </p>
+
+        <p className="mt-2 w-full text-center">
+          <Link to="/" className="text-blue-500 hover:text-blue-700">
+            Go back to the Homepage
+          </Link>
+        </p>
       </form>
     </div>
   );

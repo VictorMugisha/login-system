@@ -1,12 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     usernameOrEmail: "",
     password: "",
   });
+
+  const [errors, setErrors] = useState({});
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state) {
+      console.log(location.state)
+      setErrors({
+        ...errors,
+        loginFirst: location.state.error,
+      })
+    }
+  }, []);
 
   const navigate = useNavigate()
 
@@ -46,6 +60,10 @@ export default function LoginPage() {
         className="bg-white p-8 rounded-md shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
+
+        {errors && (
+          <div className="text-red-500 mb-4">{errors.loginFirst}</div>
+        )}
 
         <div>
           <label className="block mb-2 text-sm font-medium">

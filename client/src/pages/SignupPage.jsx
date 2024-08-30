@@ -9,7 +9,6 @@ export default function SignupPage() {
     password: "",
     repeatPassword: "",
     profilePicture: null,
-    profileImage: "",
     phoneNumber: "",
   });
 
@@ -35,10 +34,6 @@ export default function SignupPage() {
       const reader = new FileReader();
       reader.onloadend = () => {
         setPreview(reader.result); // Set the image preview to the base64 string
-        setFormData({
-          ...formData,
-          profileImage: reader.result,
-        });
       };
       reader.readAsDataURL(file);
     } else {
@@ -57,8 +52,20 @@ export default function SignupPage() {
           passwordMatch: "Passwords do not match",
         }
       })
+      console.log("Passwords do not match");
       return;
     }
+    const api = "http://localhost:5000/signup";
+    fetch(api, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((data) => console.log(data))
+      .catch((err) => console.log(err));
   };
 
   return (

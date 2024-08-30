@@ -2,6 +2,9 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const dotenv = require("dotenv");
+const crypto = require("crypto");
+let uuid = crypto.randomUUID();
+const { v4: uuidv4 } = require("uuid");
 
 const UserModel = require("./models/UserModel.js");
 
@@ -10,7 +13,11 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.urlencoded({ extended: true }));
 
 const CONNECTION_URI =
@@ -29,13 +36,27 @@ mongoose
 
 // Routes
 app.post("/signup", async (req, res) => {
-  const { username, password } = req.body;
+  const { firstName, lastName, username, email, password, profilePicture } =
+    req.body;
+  console.log(profilePicture)
+  const userId = uuidv4() + uuid;
   try {
-    const user = new UserModel({ username, password });
+    const user = new UserModel({
+      userId,
+      firstName,
+      lastName,
+      username,
+      email,
+      password,
+      profilePicture,
+    });
     await user.save();
     res.status(201).json({ message: "User created successfully", user });
   } catch (error) {
     console.log(error);
+    res
+      .status(500)
+      .json({ message: "Error creating user", errorMessage: error.message });
   }
 });
 

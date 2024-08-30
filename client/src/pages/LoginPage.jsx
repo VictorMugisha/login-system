@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
   const [formData, setFormData] = useState({
@@ -79,6 +79,18 @@ export default function LoginPage() {
         >
           Sign In
         </button>
+
+        <div>
+          <p className="mt-4 text-center">
+            Don&apos;t have an account?{" "}
+            <Link 
+              to="/signup"
+              className="text-blue-500 hover:text-blue-700 font-bold"
+            >
+              Sign Up
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

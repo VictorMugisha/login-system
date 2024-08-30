@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 
 export default function SignupPage() {
@@ -208,6 +208,18 @@ export default function SignupPage() {
         >
           Sign Up
         </button>
+
+        <div>
+          <p className="mt-4 text-center">
+            Already have an account?{" "}
+            <Link
+              to="/signin"
+              className="text-blue-500 hover:text-blue-700 font-bold"
+            >
+              Sign In
+            </Link>
+          </p>
+        </div>
       </form>
     </div>
   );

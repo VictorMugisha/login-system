@@ -8,7 +8,11 @@ export default function LoginPage() {
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    userDontExist: null,
+    serverError: null,
+    loginFirst: null,
+  });
 
   const location = useLocation();
 
@@ -34,23 +38,46 @@ export default function LoginPage() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const api = "http://localhost:5000/signin";
-    fetch(api, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        login(data.user.userId);
-        navigate("/users/home");
-      })
-      .catch((err) => console.log(err));
+
+    try {
+      const response = await fetch(api, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        const errorStatusCode = response.status;
+        switch (errorStatusCode) {
+          case 401:
+            setErrors((previousErros) => ({
+              ...previousErros,
+              userDontExist: error.message,
+            }));
+            break;
+          case 500:
+            setErrors((previousErros) => ({
+              ...previousErros,
+              serverError: error.message,
+            }));
+            break;
+        }
+        console.log(error.message);
+        return;
+      }
+
+      const data = await response.json();
+      login(data.user.userId);
+      navigate("/users/home");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -60,8 +87,16 @@ export default function LoginPage() {
         className="bg-white p-8 rounded-md shadow-md w-full max-w-sm"
       >
         <h2 className="text-2xl font-bold mb-6 text-center">Sign In</h2>
-
-        {errors && <div className="text-red-500 mb-4">{errors.loginFirst}</div>}
+        
+        {errors.loginFirst && (
+          <div className="text-red-500 mb-4">{errors.loginFirst}</div>
+        )}
+        {errors.userDontExist && (
+          <div className="text-red-500 mb-4">{errors.userDontExist}</div>
+        )}
+        {errors.serverError && (
+          <div className="text-red-500 mb-4">{errors.serverError}</div>
+        )}
 
         <div>
           <label className="block mb-2 text-sm font-medium">

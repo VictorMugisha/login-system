@@ -69,7 +69,7 @@ app.post("/signin", async (req, res) => {
       $or: [{ username: usernameOrEmail }, { email: usernameOrEmail }],
     });
     if (!user) {
-      return res.status(401).json({ message: "Invalid username or email" });
+      return res.status(401).json({ message: "User doesn't exist!" });
     }
 
     if (user.password !== password) {

@@ -1,52 +1,16 @@
-import { useAuth } from "../hooks/useAuth";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import Navbar from "../components/Navbar";
 
 export default function HomePage() {
-  const navigate = useNavigate();
-  const { logout } = useAuth();
   const loginUser = JSON.parse(localStorage.getItem("loginUser"));
   const [user] = useState({
     ...loginUser,
     profilePicture: "https://via.placeholder.com/150",
   });
 
-  function handleLogout() {
-    logout();
-    navigate("/signin");
-  }
-
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-blue-600 p-4">
-        <div className="container mx-auto flex justify-between items-center">
-          <div className="text-white text-xl font-bold">MyApp</div>
-          <ul className="flex space-x-4">
-            <li>
-              <a href="#" className="text-white hover:text-gray-300">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-white hover:text-gray-300">
-                Profile
-              </a>
-            </li>
-            <li>
-              <a href="#" className="text-white hover:text-gray-300">
-                Settings
-              </a>
-            </li>
-          </ul>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          >
-            Logout
-          </button>
-        </div>
-      </nav>
+      <Navbar />
 
       {/* Welcome Section */}
       <div className="container mx-auto p-8">

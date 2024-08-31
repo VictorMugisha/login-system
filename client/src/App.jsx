@@ -8,6 +8,7 @@ import LoginPage from "./pages/LoginPage";
 import ProtectedRoutes from "./protectedRoutes/ProtectedRoutes";
 import AuthProvider from "./utils/Auth";
 import HomePage from "./protectedRoutes/HomePage";
+import ProfilePage from "./protectedRoutes/ProfilePage";
 
 const router = createBrowserRouter([
   {
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "home",
         element: <HomePage />,
+      },
+      {
+        path: "profile",
+        element: <ProfilePage />,
       }
     ]
   }

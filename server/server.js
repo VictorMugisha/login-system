@@ -22,8 +22,7 @@ app.use(
 );
 app.use(express.urlencoded({ extended: true }));
 
-const CONNECTION_URI =
-  "mongodb+srv://victormugisha:victormugisha123@nodenetninja.hd6g2.mongodb.net/login-system?retryWrites=true&w=majority&appName=NodeNetNinja";
+const CONNECTION_URI = process.env.MONGODB_CONNECTION_URI;
 
 const PORT = process.env.PORT || 5000;
 
